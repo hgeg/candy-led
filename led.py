@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 from time import sleep
 from random import randrange as rand
-from threading import Thread
 import sys
 
 #todo: create a device finder
@@ -33,24 +32,23 @@ def turn_on(color='white',delay=0.0):
 def turn_off(delay=0.0):
     turn_on('black',delay)
 
-def blink(color, count=3):
+def blink(color, count=3, speed=0.4):
     for i in range(count):
         turn_on(color)
-        sleep(0.8)
+        sleep(speed)
         turn_off()
-        sleep(0.8)
+        sleep(speed)
     turn_off()
 
 def gay():
-    turn_on()
-    sleep(1)
-    for d0 in range(10):
-        for i,c in enumerate(['red','green','blue','cyan','magenta','yellow']):
-            Thread(target=turn_on, args=(c,d0*1.2+i*0.2)).start()
-    turn_off(10)
+    for i,c in enumerate(['red','green','blue','cyan','magenta','yellow']):
+        turn_on(c,0.1)
+    turn_off(0.2)
 
 if __name__=='__main__':
+    turn_on()
+    sleep(1)
     gay()
-    blink('red')
-    blink('green')
-    blink('blue')
+    blink('red',speed=0.2)
+    blink('green',speed=0.1)
+    blink('blue',count=12, speed=0.05)
