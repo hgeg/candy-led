@@ -32,12 +32,10 @@ def turn_on(color='white',delay=0.0):
 def turn_off(delay=0.0):
     turn_on('black',delay)
 
-def blink(color, count=3, speed=0.4):
+def blink(color, count=1, delay=0.4):
     for i in range(count):
-        turn_on(color)
-        sleep(speed)
-        turn_off()
-        sleep(speed)
+        turn_on(color, delay)
+        turn_off(delay)
     turn_off()
 
 def gay():
@@ -46,9 +44,8 @@ def gay():
     turn_off(0.2)
 
 if __name__=='__main__':
-    turn_on()
-    sleep(1)
-    gay()
-    blink('red',speed=0.2)
-    blink('green',speed=0.1)
-    blink('blue',count=12, speed=0.05)
+    try: 
+        col, dur = sys.argv[1:3]
+        blink(col,dur)
+    except: blink("white")
+
