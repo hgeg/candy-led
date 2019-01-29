@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from time import sleep
 from random import randrange as rand
+from threading import Thread
 import sys
 
 #todo: create a device finder
@@ -19,6 +20,10 @@ colors = {
 
 chsum = lambda b0, b1, b3: (21*b0**2 + 19*b1 - 3*b3) % 255
 
+def bg(f, *args):
+    t = Thread(target=f, args=args)
+    t.start()
+
 def turn_on(color='white',delay=0.0):
     sleep(delay)
     cmd = bytearray.fromhex('ff'*64)
@@ -32,8 +37,9 @@ def turn_on(color='white',delay=0.0):
 def turn_off(delay=0.0):
     turn_on('black',delay)
 
-def blink(color, count=1, delay=0.4):
+def blink(color, count=1, delay=0.2):
     for i in range(count):
+        print color
         turn_on(color, delay)
         turn_off(delay)
     turn_off()
@@ -45,7 +51,7 @@ def gay():
 
 if __name__=='__main__':
     try: 
-        col, dur = sys.argv[1:3]
-        blink(col,dur)
-    except: blink("white")
+        col, cnt = sys.argv[1:3]
+        bg(blink, col, int(cnt))
+    except: bg(blink, "white")
 
